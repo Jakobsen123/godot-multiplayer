@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b7msf2230x4u0"]
+
+[ext_resource type="PackedScene" uid="uid://coxue4upkk76q" path="res://Scenes/player.tscn" id="1_gv3r5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt3lr"]
+albedo_color = Color(1, 0.5882353, 0.21960784, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_e72e0"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e72e0"]
+
+[node name="TestArea" type="Node3D" unique_id=644057017]
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=2070876492]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=510497318]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_qt3lr")
+mesh = SubResource("PlaneMesh_e72e0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=953006044]
+shape = SubResource("WorldBoundaryShape3D_e72e0")
+
+[node name="Player" parent="." unique_id=1917613820 instance=ExtResource("1_gv3r5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0997342, 0)
