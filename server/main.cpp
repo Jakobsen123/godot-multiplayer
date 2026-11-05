@@ -39,20 +39,32 @@ int main() {
 
 
   auto addrlen = sizeof(sockaddr);
-    while (true) {
+
+while (true) {
     int connection = accept(sockfd, nullptr, nullptr);
     if (connection < 0) continue;
 
-    char buffer[100];
-    ssize_t bytesRead = read(connection, buffer, sizeof(buffer));
-    if (bytesRead > 0) {
-      std::cout << "Incomming:";
-      std::cout.write(buffer, bytesRead);
+    std::cout << "Client connected!" << std::endl;
+
+    char buffer[1024];
+
+    while (true) {
+        ssize_t bytesRead = read(connection, buffer, sizeof(buffer));
+
+        if (bytesRead <= 0) {
+            break;
+        }
+
+        std::cout << "Incoming: ";
+        std::cout.write(buffer, bytesRead);
+        std::cout << std::endl;
+
+        std::string response = "Good talking to you\n";
+        send(connection, response.c_str(), response.size(), 0);
     }
 
-    std::string response = "Good talking to you\n";
-    send(connection, response.c_str(), response.size(), 0);
+    std::cout << "Client disconnected!" << std::endl;
 
     close(connection);
-  }
+}
 }
