@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b7msf2230x4u0"]
 
 [ext_resource type="PackedScene" uid="uid://coxue4upkk76q" path="res://Scenes/player.tscn" id="1_gv3r5"]
+[ext_resource type="Script" uid="uid://cqdgc2jx4rr7c" path="res://Scripts/playerManager.gd" id="2_kpu7f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt3lr"]
 albedo_color = Color(1, 0.5882353, 0.21960784, 1)
@@ -48,3 +49,6 @@ environment = SubResource("Environment_e72e0")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1391094088]
 transform = Transform3D(0.5773847, -0.7571722, 0.3054785, 0.1706606, 0.4778006, 0.8617317, -0.7984371, -0.44541752, 0.4050942, 0, 3.2150064, 0)
+
+[node name="PlayerManager" type="Node3D" parent="." unique_id=1188147004]
+script = ExtResource("2_kpu7f")
