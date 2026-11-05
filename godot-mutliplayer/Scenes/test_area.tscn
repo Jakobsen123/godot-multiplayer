@@ -9,6 +9,20 @@ albedo_color = Color(1, 0.5882353, 0.21960784, 1)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e72e0"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf5et"]
+albedo_color = Color(0.35686275, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e72e0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nf5et"]
+
+[sub_resource type="Sky" id="Sky_qt3lr"]
+sky_material = SubResource("ProceduralSkyMaterial_nf5et")
+
+[sub_resource type="Environment" id="Environment_e72e0"]
+background_mode = 2
+sky = SubResource("Sky_qt3lr")
+
 [node name="TestArea" type="Node3D" unique_id=644057017]
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=2070876492]
@@ -23,3 +37,14 @@ shape = SubResource("WorldBoundaryShape3D_e72e0")
 
 [node name="Player" parent="." unique_id=1917613820 instance=ExtResource("1_gv3r5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0997342, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=563056144]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -5.630133, 2.051271, 0)
+material_override = SubResource("StandardMaterial3D_nf5et")
+mesh = SubResource("BoxMesh_e72e0")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=801110656]
+environment = SubResource("Environment_e72e0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1391094088]
+transform = Transform3D(0.5773847, -0.7571722, 0.3054785, 0.1706606, 0.4778006, 0.8617317, -0.7984371, -0.44541752, 0.4050942, 0, 3.2150064, 0)
