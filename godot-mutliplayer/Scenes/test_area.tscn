@@ -49,6 +49,7 @@ environment = SubResource("Environment_e72e0")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1391094088]
 transform = Transform3D(0.5773847, -0.7571722, 0.3054785, 0.1706606, 0.4778006, 0.8617317, -0.7984371, -0.44541752, 0.4050942, 0, 3.2150064, 0)
+shadow_enabled = true
 
 [node name="PlayerManager" type="Node3D" parent="." unique_id=1188147004]
 script = ExtResource("2_kpu7f")

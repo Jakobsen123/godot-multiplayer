@@ -1,23 +1,56 @@
 extends Node
 
-var socket = WebSocketPeer.new()
+var tcp = StreamPeerTCP.new()
 
-const serverURL = '172.20.128.28:9999'
+const SERVER_IP = "172.20.128.28"
+const SERVER_PORT = 9999
 
-func connectToServer():
-	var error = socket.connect_to_url(serverURL)
-	
+var connected = false
+var send_timer = 0.0
+
+
+func _ready():
+	var error = tcp.connect_to_host(SERVER_IP, SERVER_PORT)
+
 	if error != OK:
-		print("connection Failed ", error)
-	
-func _process(delta: float) -> void:
-	socket.poll()
-	
-	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
-		while socket.get_available_packet_count() > 0:
-			var packet = socket.get_packet()
-			print(packet.get_string_from_utf8())
-		
-func sendMessage(message: String):
-	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
-		socket.send_text(message)
+		print("Connection error: ", error)
+
+
+func _process(delta):
+	tcp.poll()
+
+	if tcp.get_status() == StreamPeerTCP.STATUS_CONNECTED:
+
+		if not connected:
+			connected = true
+			print("Connected to server!")
+
+		send_timer += delta
+
+		if send_timer >= 1.0:
+			send_timer = 0.0
+
+func send_player_data(player_name: String, player_position: Vector3):
+
+	var data = {
+		"type": "player_update",
+		"name": player_name,
+		"position": {
+			"x": player_position.x,
+			"y": player_position.y,
+			"z": player_position.z
+		}
+	}
+
+	var json = JSON.stringify(data)
+
+	send_message(json)
+
+func send_message(message: String):
+	var data = (message + "\n").to_utf8_buffer()
+	var error = tcp.put_data(data)
+
+	if error != OK:
+		print("Send error: ", error)
+	else:
+		print("Sent: ", message)
