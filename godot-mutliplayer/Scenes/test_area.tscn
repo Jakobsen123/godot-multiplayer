@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://coxue4upkk76q" path="res://Scenes/player.tscn" id="1_gv3r5"]
 [ext_resource type="Script" uid="uid://cqdgc2jx4rr7c" path="res://Scripts/playerManager.gd" id="2_kpu7f"]
+[ext_resource type="PackedScene" uid="uid://b3k0jro56tkwh" path="res://Assets/player.glb" id="3_3n873"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt3lr"]
 albedo_color = Color(1, 0.5882353, 0.21960784, 1)
@@ -52,3 +53,6 @@ shadow_enabled = true
 
 [node name="PlayerManager" type="Node3D" parent="." unique_id=1188147004]
 script = ExtResource("2_kpu7f")
+
+[node name="player" parent="." unique_id=1237112353 instance=ExtResource("3_3n873")]
+transform = Transform3D(0.27, 0, 0, 0, 0.27, 0, 0, 0, 0.27, 2.0031836, 1.0003582, 0.10412192)

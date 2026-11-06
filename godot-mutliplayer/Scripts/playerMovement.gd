@@ -19,7 +19,7 @@ func _ready() -> void:
 		camera.current = false
 
 func _unhandled_input(event: InputEvent) -> void:
-	if isLocalPlayer:
+	if not isLocalPlayer:
 		return
 	
 	if event is InputEventMouseMotion:
@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 		
 		if sendTimer >= 0.05:
 			sendTimer = 0.0
-			Network.send_player_data("Mattebassen", global_position)
+			Network.send_player_data("Jakob", global_position)
 	
 	move_and_slide()
 	
