@@ -60,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		
 		if sendTimer >= 0.05:
 			sendTimer = 0.0
-			Network.send_player_data("Jakob", global_position, rotation.y)
+			Network.send_player_data("Matthias", global_position, rotation.y)
 	
 	move_and_slide()
 	

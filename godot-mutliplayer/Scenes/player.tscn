@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://coxue4upkk76q"]
 
 [ext_resource type="Script" uid="uid://cxe4i2wuk5n8w" path="res://Scripts/playerMovement.gd" id="1_v0iea"]
-[ext_resource type="PackedScene" uid="uid://b3k0jro56tkwh" path="res://Assets/player.glb" id="2_cvnsp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e72e0"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_e72e0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf5et"]
+albedo_color = Color(0.28235295, 0.23137255, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e72e0"]
 
 [node name="Player" type="CharacterBody3D" unique_id=1917613820]
 script = ExtResource("1_v0iea")
@@ -12,7 +18,12 @@ script = ExtResource("1_v0iea")
 shape = SubResource("CapsuleShape3D_e72e0")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=335879818]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.624617, -0.19776285)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="playerModel" parent="." unique_id=1978217565 instance=ExtResource("2_cvnsp")]
-transform = Transform3D(-1.3113417e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.3113417e-08, 0, -0.5, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1665789588]
+mesh = SubResource("CapsuleMesh_e72e0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1831167511]
+transform = Transform3D(0.663031, 0, 0, 0, 0.155972, 0, 0, 0, 0.57669604, 0, 0.4939055, -0.23507263)
+material_override = SubResource("StandardMaterial3D_nf5et")
+mesh = SubResource("BoxMesh_e72e0")
