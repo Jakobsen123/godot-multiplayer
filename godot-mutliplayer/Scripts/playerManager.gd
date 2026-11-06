@@ -4,7 +4,7 @@ const PLAYER = preload("res://Scenes/player.tscn")
 
 var players = {}
 
-var myPlayerID = "Matthias"
+var myPlayerID = "Jakob"
 
 func spawnPlayer(id: String, spawnPosition: Vector3, newRotation: float):
 	if players.has(id):

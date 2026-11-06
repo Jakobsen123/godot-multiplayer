@@ -1,0 +1,6 @@
+.sconsign.dblite
+.sconf_temp/
+config.log
+bin/
+godot-cpp/gen/
+godot-cpp/bin/

@@ -1,0 +1,13 @@
+[configuration]
+
+entry_symbol = "gmp_library_init"
+compatibility_minimum = "4.7"
+
+[libraries]
+
+macos.debug = "res://addons/gmp/bin/libgmp.macos.template_debug.framework"
+macos.release = "res://addons/gmp/bin/libgmp.macos.template_release.framework"
+windows.debug.x86_64 = "res://addons/gmp/bin/libgmp.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://addons/gmp/bin/libgmp.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://addons/gmp/bin/libgmp.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://addons/gmp/bin/libgmp.linux.template_release.x86_64.so"
