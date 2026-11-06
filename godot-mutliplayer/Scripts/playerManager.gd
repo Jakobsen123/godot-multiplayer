@@ -4,7 +4,11 @@ const PLAYER = preload("res://Scenes/player.tscn")
 
 var players = {}
 
+<<<<<<< HEAD
 var myPlayerID = "Jakob"
+=======
+var myPlayerID = Global.playerUsername
+>>>>>>> 24dd614c0b8ca3edd006a1b026b90d05b55648d6
 
 func spawnPlayer(id: String, spawnPosition: Vector3, newRotation: float):
 	if players.has(id):
