@@ -9,6 +9,7 @@ const mouseSens = 0.003
 @onready var camera = $Camera3D
 
 var targetPos: Vector3
+var targetRotation: float = 0.0
 
 var sendTimer = 0.0
 
@@ -41,6 +42,8 @@ func _physics_process(delta: float) -> void:
 		
 		if Input.is_action_just_pressed("escape"):
 			get_tree().quit()
+		if Input.is_action_just_pressed("reset_pos"):
+			position = Vector3(0,0,0)
 
 		# Get the input direction and handle the movement/deceleration.
 		# As good practice, you should replace UI actions with custom gameplay actions.
@@ -57,14 +60,12 @@ func _physics_process(delta: float) -> void:
 		
 		if sendTimer >= 0.05:
 			sendTimer = 0.0
-			Network.send_player_data("Mattebassen", global_position, rotation.y)
+			Network.send_player_data("Jakob", global_position, rotation.y)
 	
 	move_and_slide()
 	
 
 func _process(delta):
 	if not isLocalPlayer:
-		global_position = global_position.lerp(
-			targetPos,
-			10.0 * delta
-		)
+		global_position = global_position.lerp(targetPos, 10.0 * delta)
+		rotation.y = lerp_angle(rotation.y, targetRotation, 10.0 * delta)
