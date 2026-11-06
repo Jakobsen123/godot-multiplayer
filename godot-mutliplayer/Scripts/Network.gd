@@ -57,7 +57,7 @@ func _process(delta):
 		if send_timer >= 1.0:
 			send_timer = 0.0
 
-func send_player_data(player_name: String, player_position: Vector3):
+func send_player_data(player_name: String, player_position: Vector3, player_rotation_y: float):
 
 	var data = {
 		"type": "player_update",
@@ -66,7 +66,8 @@ func send_player_data(player_name: String, player_position: Vector3):
 			"x": player_position.x,
 			"y": player_position.y,
 			"z": player_position.z
-		}
+		},
+		"rotation": player_rotation_y
 	}
 
 	var json = JSON.stringify(data)
@@ -95,5 +96,6 @@ func handle_message(data: Dictionary):
 			pos["y"],
 			pos["z"]
 	)
+		var playerRotation = data["rotation"]
 
-		playerManager.updatePlayer(player_id, player_position)
+		playerManager.updatePlayer(player_id, player_position, playerRotation)

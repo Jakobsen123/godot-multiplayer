@@ -28,6 +28,7 @@ sky = SubResource("Sky_qt3lr")
 [node name="TestArea" type="Node3D" unique_id=644057017]
 
 [node name="Player" parent="." unique_id=1917613820 instance=ExtResource("1_gv3r5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1447871, 0)
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=2070876492]
 

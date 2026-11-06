@@ -6,7 +6,7 @@ var players = {}
 
 var myPlayerID = "Jakob"
 
-func spawnPlayer(id: String, spawnPosition: Vector3):
+func spawnPlayer(id: String, spawnPosition: Vector3, rotation: float):
 	if players.has(id):
 		return
 
@@ -17,13 +17,14 @@ func spawnPlayer(id: String, spawnPosition: Vector3):
 	
 	add_child(player)
 	player.position = spawnPosition
+	player.rotation.y = rotation
 	
 	players[id] = player
 
-func updatePlayer(id: String, newPosition: Vector3):
+func updatePlayer(id: String, newPosition: Vector3, rotation: float):
 
 	if not players.has(id):
-		spawnPlayer(id, newPosition)
+		spawnPlayer(id, newPosition, rotation)
 
 	var player = players[id]
 
