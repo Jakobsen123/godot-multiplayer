@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="godot-mutliplayer"
-run/main_scene="uid://b7msf2230x4u0"
+run/main_scene="uid://bmciqnyl5an52"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
 
 Network="*uid://72v1m62h7i0s"
+Global="*uid://dge2sc60lhblp"
 
 [display]
 

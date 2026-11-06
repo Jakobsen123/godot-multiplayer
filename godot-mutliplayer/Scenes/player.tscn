@@ -27,3 +27,6 @@ mesh = SubResource("CapsuleMesh_e72e0")
 transform = Transform3D(0.663031, 0, 0, 0, 0.155972, 0, 0, 0, 0.57669604, 0, 0.4939055, -0.23507263)
 material_override = SubResource("StandardMaterial3D_nf5et")
 mesh = SubResource("BoxMesh_e72e0")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1596452698]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.1319904, 0)
