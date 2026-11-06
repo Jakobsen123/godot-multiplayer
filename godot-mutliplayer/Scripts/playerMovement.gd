@@ -8,10 +8,20 @@ const mouseSens = 0.003
 
 @onready var camera = $Camera3D
 
+var targetPos: Vector3
+
+var sendTimer = 0.0
+
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if isLocalPlayer:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	else:
+		camera.current = false
 
 func _unhandled_input(event: InputEvent) -> void:
+	if isLocalPlayer:
+		return
+	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouseSens)
 		camera.rotate_x(-event.relative.y * mouseSens)
@@ -42,7 +52,19 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			velocity.z = move_toward(velocity.z, 0, SPEED)
+		
+		sendTimer += delta
+		
+		if sendTimer >= 0.05:
+			sendTimer = 0.0
+			Network.send_player_data("Mattebassen", global_position)
 	
 	move_and_slide()
 	
-	Network.send_player_data("PLAYERNAME", global_position)
+
+func _process(delta):
+	if not isLocalPlayer:
+		global_position = global_position.lerp(
+			targetPos,
+			10.0 * delta
+		)

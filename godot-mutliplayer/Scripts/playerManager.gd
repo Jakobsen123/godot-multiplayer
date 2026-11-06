@@ -4,7 +4,7 @@ const PLAYER = preload("res://Scenes/player.tscn")
 
 var players = {}
 
-var myPlayerID = ""
+var myPlayerID = "Mattebassen"
 
 func spawnPlayer(id: String, spawnPosition: Vector3):
 	if players.has(id):
@@ -19,6 +19,16 @@ func spawnPlayer(id: String, spawnPosition: Vector3):
 	player.position = spawnPosition
 	
 	players[id] = player
+
+func updatePlayer(id: String, newPosition: Vector3):
+
+	if not players.has(id):
+		spawnPlayer(id, newPosition)
+
+	var player = players[id]
+
+	if not player.isLocalPlayer:
+		player.target_position = newPosition
 
 func removePlayer(id: String):
 	if players.has(id):

@@ -8,13 +8,38 @@ const SERVER_PORT = 9999
 var connected = false
 var send_timer = 0.0
 
+var playerManager: Node3D
+
+var receiveBuffer = ""
+
 
 func _ready():
+	playerManager = get_tree().current_scene.get_node("PlayerManager")
+	
 	var error = tcp.connect_to_host(SERVER_IP, SERVER_PORT)
 
 	if error != OK:
 		print("Connection error: ", error)
 
+func receiveMessages():
+	var available = tcp.get_available_bytes()
+	
+	if available > 0:
+		var result = tcp.get_data(available)
+	
+		if result[0] == OK:
+			receiveBuffer += result[1].get_string_from_utf8()
+	
+	while "\n" in receiveBuffer:
+		var newlinePos = receiveBuffer.find("\n")
+		var message = receiveBuffer.substr(0, newlinePos)
+		
+		receiveBuffer = receiveBuffer.substr(newlinePos + 1)
+		
+		var data = JSON.parse_string(message)
+		
+		if data is Dictionary:
+			handle_message(data)
 
 func _process(delta):
 	tcp.poll()
@@ -24,6 +49,8 @@ func _process(delta):
 		if not connected:
 			connected = true
 			print("Connected to server!")
+			
+		receiveMessages()
 
 		send_timer += delta
 
@@ -54,3 +81,19 @@ func send_message(message: String):
 		print("Send error: ", error)
 	else:
 		print("Sent: ", message)
+
+func handle_message(data: Dictionary):
+
+	if data.get("type") == "player_update":
+
+		var player_id = data["name"]
+
+		var pos = data["position"]
+
+		var player_position = Vector3(
+			pos["x"],
+			pos["y"],
+			pos["z"]
+	)
+
+		playerManager.updatePlayer(player_id, player_position)

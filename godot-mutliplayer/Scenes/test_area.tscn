@@ -26,6 +26,8 @@ sky = SubResource("Sky_qt3lr")
 
 [node name="TestArea" type="Node3D" unique_id=644057017]
 
+[node name="Player" parent="." unique_id=1917613820 instance=ExtResource("1_gv3r5")]
+
 [node name="Ground" type="StaticBody3D" parent="." unique_id=2070876492]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=510497318]
@@ -35,9 +37,6 @@ mesh = SubResource("PlaneMesh_e72e0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=953006044]
 shape = SubResource("WorldBoundaryShape3D_e72e0")
-
-[node name="Player" parent="." unique_id=1917613820 instance=ExtResource("1_gv3r5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0997342, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=563056144]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -5.630133, 2.051271, 0)
