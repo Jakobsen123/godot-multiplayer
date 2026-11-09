@@ -1,0 +1,1 @@
+g++ main.cpp includes/socket.cpp -o server2 -std=c++17

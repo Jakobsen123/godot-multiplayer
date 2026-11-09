@@ -55,10 +55,10 @@ func _process(delta):
 		if send_timer >= 1.0:
 			send_timer = 0.0
 
-func send_player_data(player_name: String, player_position: Vector3, player_rotation_y: float):
+func send_player_data(type: String,player_name: String, player_position: Vector3, player_rotation_y: float):
 
 	var data = {
-		"type": "player_update",
+		"type": type,
 		"name": player_name,
 		"position": {
 			"x": player_position.x,

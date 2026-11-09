@@ -42,6 +42,8 @@ func _physics_process(delta: float) -> void:
 		
 		if Input.is_action_just_pressed("escape"):
 			get_tree().quit()
+			queue_free()
+			
 		if Input.is_action_just_pressed("reset_pos"):
 			position = Vector3(0,0,0)
 
@@ -60,7 +62,7 @@ func _physics_process(delta: float) -> void:
 		
 		if sendTimer >= 0.05:
 			sendTimer = 0.0
-			Network.send_player_data(Global.playerUsername, global_position, rotation.y)
+			Network.send_player_data("update_player",Global.playerUsername, global_position, rotation.y)
 	
 		move_and_slide()
 	
