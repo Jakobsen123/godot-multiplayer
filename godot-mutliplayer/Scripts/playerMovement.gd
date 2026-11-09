@@ -62,7 +62,7 @@ func _physics_process(delta: float) -> void:
 			sendTimer = 0.0
 			Network.send_player_data(Global.playerUsername, global_position, rotation.y)
 	
-	move_and_slide()
+		move_and_slide()
 	
 
 func _process(delta):
