@@ -1,3 +1,3 @@
 extends Node
 
-var playerUsername = ""
+var playerUsername = "Testing"

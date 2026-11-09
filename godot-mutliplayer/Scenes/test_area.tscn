@@ -2,19 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://coxue4upkk76q" path="res://Scenes/player.tscn" id="1_gv3r5"]
 [ext_resource type="Script" uid="uid://cqdgc2jx4rr7c" path="res://Scripts/playerManager.gd" id="2_kpu7f"]
-[ext_resource type="PackedScene" uid="uid://b3k0jro56tkwh" path="res://Assets/player.glb" id="3_3n873"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt3lr"]
-albedo_color = Color(1, 0.5882353, 0.21960784, 1)
+albedo_color = Color(0.2076931, 0.3483454, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_e72e0"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e72e0"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf5et"]
-albedo_color = Color(0.35686275, 1, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_e72e0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nf5et"]
 
@@ -40,11 +34,6 @@ mesh = SubResource("PlaneMesh_e72e0")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=953006044]
 shape = SubResource("WorldBoundaryShape3D_e72e0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=563056144]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -5.630133, 2.051271, 0)
-material_override = SubResource("StandardMaterial3D_nf5et")
-mesh = SubResource("BoxMesh_e72e0")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=801110656]
 environment = SubResource("Environment_e72e0")
 
@@ -54,6 +43,3 @@ shadow_enabled = true
 
 [node name="PlayerManager" type="Node3D" parent="." unique_id=1188147004]
 script = ExtResource("2_kpu7f")
-
-[node name="player" parent="." unique_id=1237112353 instance=ExtResource("3_3n873")]
-transform = Transform3D(-0.09758892, 0, -0.2517467, 0, 0.27, 0, 0.2517467, 0, -0.09758892, 3.1958754, 0.40478826, -3.8530161)
