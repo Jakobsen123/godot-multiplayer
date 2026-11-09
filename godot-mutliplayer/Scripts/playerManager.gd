@@ -3,8 +3,10 @@ extends Node3D
 const PLAYER = preload("res://Scenes/player.tscn")
 
 var players = {}
-
 var myPlayerID = Global.playerUsername
+
+func _ready():
+	Network.playerManager = self
 
 func spawnPlayer(id: String, spawnPosition: Vector3, newRotation: float):
 	if players.has(id):

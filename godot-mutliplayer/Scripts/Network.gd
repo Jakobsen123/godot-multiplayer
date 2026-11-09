@@ -14,8 +14,6 @@ var receiveBuffer = ""
 
 
 func _ready():
-	playerManager = get_tree().current_scene.get_node("PlayerManager")
-	
 	var error = tcp.connect_to_host(SERVER_IP, SERVER_PORT)
 
 	if error != OK:
@@ -86,6 +84,10 @@ func send_message(message: String):
 func handle_message(data: Dictionary):
 
 	if data.get("type") == "player_update":
+
+		# PlayerManager registers itself when the game scene loads
+		if not is_instance_valid(playerManager):
+			return
 
 		var player_id = data["name"]
 
