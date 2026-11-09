@@ -25,6 +25,7 @@ func spawnPlayer(id: String, spawnPosition: Vector3, newRotation: float):
 func updatePlayer(id: String, newPosition: Vector3, newRotation: float):
 	if not players.has(id):
 		spawnPlayer(id, newPosition, newRotation)
+		return
 
 	var player = players[id]
 
