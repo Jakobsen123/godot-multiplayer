@@ -18,8 +18,6 @@ func _ready() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		camera.current = false
-	
-	$Label3D.text = Global.playerUsername
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not isLocalPlayer:

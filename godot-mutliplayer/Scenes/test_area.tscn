@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cqdgc2jx4rr7c" path="res://Scripts/playerManager.gd" id="2_kpu7f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt3lr"]
-albedo_color = Color(0.2076931, 0.3483454, 0, 1)
+albedo_color = Color(0.85490197, 0.43529412, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_e72e0"]
 

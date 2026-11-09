@@ -8,13 +8,15 @@ var myPlayerID = Global.playerUsername
 func _ready():
 	Network.playerManager = self
 
-func spawnPlayer(id: String, spawnPosition: Vector3, newRotation: float):
+func spawnPlayer(id: String, username: String, spawnPosition: Vector3, newRotation: float):
 	if players.has(id):
 		return
 
 	var player = PLAYER.instantiate()
 	player.name = id
 	player.isLocalPlayer = (id == myPlayerID)
+	
+	player.get_node("Label3D").text = username
 
 	add_child(player)
 	player.position = spawnPosition
@@ -24,9 +26,9 @@ func spawnPlayer(id: String, spawnPosition: Vector3, newRotation: float):
 
 	players[id] = player
 
-func updatePlayer(id: String, newPosition: Vector3, newRotation: float):
+func updatePlayer(id: String, username:String, newPosition: Vector3, newRotation: float):
 	if not players.has(id):
-		spawnPlayer(id, newPosition, newRotation)
+		spawnPlayer(id, username, newPosition, newRotation)
 		return
 
 	var player = players[id]

@@ -100,4 +100,4 @@ func handle_message(data: Dictionary):
 	)
 		var playerRotation = data["rotation"]
 
-		playerManager.updatePlayer(player_id, player_position, playerRotation)
+		playerManager.updatePlayer(player_id, data["name"], player_position, playerRotation)
