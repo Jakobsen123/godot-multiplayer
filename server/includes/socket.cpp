@@ -7,6 +7,7 @@
 #include "socket.h"
 #include "connection.h"
 #include "print.h"
+#include "includes/JSONParse.cpp"
 
 Socket::Socket(const int port)
 {
@@ -39,20 +40,20 @@ void Socket::Start()
         socklen_t fromLen = sizeof(from);
         ssize_t n = recvfrom(socketfd, buffer, sizeof(buffer), 0, (sockaddr *)&from, &fromLen);
 
-        std::cout << "Received: ";
         std::string msg(buffer, n);
-        std::cout << msg << "\n";
+        Client c;
+        if (JSONParse::Parse(msg, c))
+        {
+            std::cout << c.name;
+        }
 
-        std::cout << std::endl;
+        std::cout
+            << std::endl;
     }
 }
 
-void Socket::AddClient(const std::string &name, const Vector3 &pos, float rotation)
+void Socket::AddClient(const std::string &msg)
 {
-    Clients.push_back(
-        {name,
-         pos,
-         rotation});
 }
 
 void Socket::RemoveClient(const Client &client)

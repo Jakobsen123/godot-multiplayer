@@ -12,6 +12,6 @@ struct Vector3
 struct Client 
 {
     std::string name;
-    Vector3 pos;
+    Vector3 position;
     float rotation;
 };

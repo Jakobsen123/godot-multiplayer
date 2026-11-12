@@ -11,7 +11,7 @@ class Socket
 public:
     explicit Socket(const int port);
     void Start();
-    void AddClient(const std::string &ame, const Vector3 &pos, float rotation);
+    void AddClient(const std::string &msg);
     void RemoveClient(const Client &client);
     bool CompareClients(const Client &a, const Client &b);
 
