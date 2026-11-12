@@ -40,7 +40,8 @@ void Socket::Start()
         ssize_t n = recvfrom(socketfd, buffer, sizeof(buffer), 0, (sockaddr *)&from, &fromLen);
 
         std::cout << "Received: ";
-        std::cout.write(buffer, n);
+        std::cout << n << "\n";
+
         std::cout << std::endl;
     }
 }
@@ -56,10 +57,8 @@ void Socket::AddClient(const std::string &name, const Vector3 &pos, float rotati
 void Socket::RemoveClient(const Client &client)
 {
     std::string key = client.name;
-    std::erase_if(Clients, [ key, this ] (const Client &i)
-    {
-        return key == i.name;
-    });
+    std::erase_if(Clients, [key, this](const Client &i)
+                  { return key == i.name; });
 }
 
 bool CompareClients(const Client &a, const Client &b)
