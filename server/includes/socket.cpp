@@ -5,9 +5,10 @@
 #include <iostream>
 
 #include "socket.h"
+#include "connection.h"
 #include "print.h"
 
-Socket::Socket(int port)
+Socket::Socket(const int port)
 {
     socketfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (socketfd < 0)
@@ -42,4 +43,26 @@ void Socket::Start()
         std::cout.write(buffer, n);
         std::cout << std::endl;
     }
+}
+
+void Socket::AddClient(const std::string &name, const Vector3 &pos, float rotation)
+{
+    Clients.push_back(
+        {name,
+         pos,
+         rotation});
+}
+
+void Socket::RemoveClient(const Client &client)
+{
+    std::string key = client.name;
+    std::erase_if(Clients, [ key, this ] (const Client &i)
+    {
+        return key == i.name;
+    });
+}
+
+bool CompareClients(const Client &a, const Client &b)
+{
+    return (a.name == b.name);
 }

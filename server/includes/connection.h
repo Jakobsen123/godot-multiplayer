@@ -1,9 +1,17 @@
 #include <arpa/inet.h>
+#include <string>
 #pragma once
 
-struct Connection 
+struct Vector3
 {
-    in_addr addr;
-    int port;
-    int uid;
+    float x;
+    float y;
+    float z;
+};
+
+struct Client 
+{
+    std::string name;
+    Vector3 pos;
+    float rotation;
 };

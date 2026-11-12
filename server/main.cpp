@@ -3,9 +3,11 @@
 #include "includes/packet.h"
 #include "includes/print.h"
 
+constexpr int port = 8000;
+
 int main()
 {
-    Socket socket(8000);
+    Socket socket(port);
     socket.Start();
 
     return 0;
