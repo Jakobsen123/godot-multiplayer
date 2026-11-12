@@ -44,7 +44,14 @@ void Socket::Start()
         Client c;
         if (JSONParse::Parse(msg, c))
         {
-            std::cout << c.name;
+            if (c.name == "")
+            {
+                std::cout << "Noting" << "\n";
+            }
+            else
+            {
+                std::cout << c.name;
+            }
         }
 
         std::cout
