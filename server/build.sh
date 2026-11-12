@@ -1,1 +1,1 @@
-g++ main.cpp includes/socket.cpp -o server2 -std=c++17
+g++ main.cpp includes/socket.cpp -o server2 -std=c++20
