@@ -1,6 +1,6 @@
-#include <includes/nlohmann/json.hpp>
+#include "nlohmann/json.hpp"
 #include <string>
-#include "includes/connection.h"
+#include "connection.h"
 
 class JSONParse
 {
