@@ -5,7 +5,7 @@
 
 int main()
 {
-    Socket socket;
+    Socket socket(8000);
     socket.Start();
 
     return 0;

@@ -7,7 +7,7 @@
 class Socket
 {
 public:
-    explicit Socket();
+    explicit Socket(int port);
     void Start();
 
 private:
