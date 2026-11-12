@@ -3,7 +3,6 @@ extends Node3D
 @onready var player = get_tree().current_scene.get_node("Player")
 
 
-
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body.name == "Player":
 		player.fuel = 150

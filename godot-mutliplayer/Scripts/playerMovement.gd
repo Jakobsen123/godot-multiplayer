@@ -35,8 +35,25 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if isLocalPlayer:
 		
+		if $Camera3D/RayCast3D.is_colliding():
+			var target = $Camera3D/RayCast3D.get_collider()
+			print(target)
+		
+		
 		fuelBar.value = fuel
 		$FuelLabel.text = str(fuel)
+		
+		if fuelBar.value <= 35:
+			$lowFuelLabel.show()
+		else:
+			$lowFuelLabel.hide()
+		
+		if fuelBar.value >= 70:
+			fuelBar.tint_progress = Color.LIME_GREEN
+		elif fuelBar.value <= 70 and fuelBar.value >= 35:
+			fuelBar.tint_progress = Color.ORANGE
+		else:
+			fuelBar.tint_progress = Color.RED
 	
 		# Add the gravity.
 		if not is_on_floor():

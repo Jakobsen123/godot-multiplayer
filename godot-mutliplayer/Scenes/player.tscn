@@ -45,6 +45,11 @@ shape = SubResource("CapsuleShape3D_e72e0")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=335879818]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+fov = 90.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1373874698]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.47680366)
+target_position = Vector3(0, -10, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1665789588]
 mesh = SubResource("CapsuleMesh_e72e0")
@@ -77,6 +82,7 @@ mesh = SubResource("CylinderMesh_e72e0")
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="JetPack" unique_id=1865507030]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.64876306, 0)
+emitting = false
 amount = 100
 randomness = 0.2
 mesh = SubResource("SphereMesh_e72e0")
@@ -110,3 +116,11 @@ texture_under = ExtResource("2_6t5aa")
 texture_progress = ExtResource("3_vgqql")
 tint_under = Color(0.2450997, 0.19513747, 0.19090867, 1)
 tint_progress = Color(0.29616925, 0.49518383, 1, 1)
+
+[node name="lowFuelLabel" type="Label" parent="." unique_id=100773820]
+offset_left = 57.0
+offset_top = 441.0
+offset_right = 136.0
+offset_bottom = 464.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "LOW FUEL"

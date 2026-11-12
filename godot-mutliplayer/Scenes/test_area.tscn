@@ -62,3 +62,6 @@ mesh = SubResource("BoxMesh_e72e0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boxforscale" unique_id=970229630]
 shape = SubResource("BoxShape3D_e72e0")
+
+[node name="fuelCan2" parent="." unique_id=626280989 instance=ExtResource("3_3n873")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5293703, 0.5, 1.092145)
