@@ -40,7 +40,8 @@ void Socket::Start()
         ssize_t n = recvfrom(socketfd, buffer, sizeof(buffer), 0, (sockaddr *)&from, &fromLen);
 
         std::cout << "Received: ";
-        std::cout << n << "\n";
+        std::string msg(buffer, n);
+        std::cout << msg << "\n";
 
         std::cout << std::endl;
     }
