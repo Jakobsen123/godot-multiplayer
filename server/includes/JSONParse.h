@@ -10,9 +10,15 @@ public:
         auto parsedJSON = nlohmann::json::parse(text, nullptr, false);
         try
         {
-            out.name = parsedJSON.at("position");
-            out.position = Vector3(parsedJSON.at("x"), parsedJSON.at("y"), parsedJSON.at("z"));
-            out.rotation = parsedJSON.at("rotation");
+            out.name = parsedJSON.at("name").get<std::string>();
+
+            const auto &pos = parsedJSON.at("position");
+            out.position = Vector3{pos.at("x").get<float>(),
+                                   pos.at("y").get<float>(),
+                                   pos.at("z").get<float>()};
+
+            out.rotation = parsedJSON.at("rotation").get<float>();
+            return true;
             return true;
         }
         catch (const nlohmann::json::exception &e)
