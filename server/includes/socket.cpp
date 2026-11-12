@@ -6,7 +6,7 @@
 
 #include "socket.h"
 #include "connection.h"
-#include "print.h"
+#include "lib.h"
 #include "JSONParse.h"
 
 Socket::Socket(const int port)
@@ -41,25 +41,34 @@ void Socket::Start()
         ssize_t n = recvfrom(socketfd, buffer, sizeof(buffer), 0, (sockaddr *)&from, &fromLen);
 
         std::string msg(buffer, n);
+
         Client c;
         if (JSONParse::Parse(msg, c))
         {
-            if (c.name == "")
+            if (ClientExists(c))
             {
-                std::cout << "Noting" << "\n";
+                Print("Fjertefaen");
             }
             else
             {
-                std::cout << c.name;
+                AddClient(c);
             }
         }
-
-        std::cout
-            << std::endl;
     }
 }
 
-void Socket::AddClient(const std::string &msg)
+bool Socket::ClientExists(Client &c)
+{
+    for (Client i : Clients)
+    {
+        std::string a = ToLower(i.name);
+        std::string b = ToLower(c.name);
+
+        return a == b;
+    }
+}
+
+void Socket::AddClient(const Client &c)
 {
 }
 

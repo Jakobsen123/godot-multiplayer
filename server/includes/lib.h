@@ -8,3 +8,12 @@ void Print(Args... args)
 {
     ((std::cout << " " << args << " " << std::endl), ...);
 }
+
+std::string ToLower(std::string &str)
+{
+    for (char &c : str)
+    {
+        std::tolower(c);
+    }
+    return str;
+}
