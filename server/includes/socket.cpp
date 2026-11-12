@@ -7,7 +7,7 @@
 #include "socket.h"
 #include "connection.h"
 #include "print.h"
-#include "includes/JSONParse.cpp"
+#include "includes/JSONParse.h"
 
 Socket::Socket(const int port)
 {
