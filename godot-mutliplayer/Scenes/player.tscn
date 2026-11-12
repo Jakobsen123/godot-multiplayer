@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://coxue4upkk76q"]
 
 [ext_resource type="Script" uid="uid://cxe4i2wuk5n8w" path="res://Scripts/playerMovement.gd" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://g7stxk6vq412" path="res://Assets/UI/FluelBarUnder.png" id="2_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://dxefevwvduami" path="res://Assets/UI/FuelBarProgress.png" id="3_vgqql"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e72e0"]
 
@@ -22,14 +24,16 @@ albedo_color = Color(1, 1, 0.25490198, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_e72e0"]
 height = 1.0507813
 
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_qt3lr"]
-albedo_color = Color(1, 0.5803922, 0.30588236, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpu7f"]
+transparency = 1
+albedo_color = Color(1, 1, 0.17254902, 1)
 emission_enabled = true
-emission = Color(0.91764706, 0.57254905, 0, 1)
+emission = Color(1, 0.4627451, 0, 1)
 emission_energy_multiplier = 10.0
+proximity_fade_distance = 0.01
 
 [sub_resource type="SphereMesh" id="SphereMesh_e72e0"]
-material = SubResource("ORMMaterial3D_qt3lr")
+material = SubResource("StandardMaterial3D_kpu7f")
 radius = 0.05
 height = 0.1
 
@@ -73,9 +77,36 @@ mesh = SubResource("CylinderMesh_e72e0")
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="JetPack" unique_id=1865507030]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.64876306, 0)
-emitting = false
 amount = 100
+randomness = 0.2
 mesh = SubResource("SphereMesh_e72e0")
 emission_shape = 1
 emission_sphere_radius = 0.5
+direction = Vector3(0, -1, 0)
+spread = 12.0
+gravity = Vector3(0, -3, 0)
 color = Color(1, 0.5294118, 0.22745098, 1)
+
+[node name="FuelLabel" type="Label" parent="." unique_id=706991813]
+z_index = 2
+offset_left = 28.0
+offset_top = 489.0
+offset_right = 168.0
+offset_bottom = 562.0
+theme_override_font_sizes/font_size = 53
+text = "FUEL:"
+horizontal_alignment = 1
+
+[node name="FuelBar" type="TextureProgressBar" parent="." unique_id=1595928756]
+offset_left = 38.0
+offset_top = 468.0
+offset_right = 3038.0
+offset_bottom = 3468.0
+scale = Vector2(0.039999872, 0.039999872)
+max_value = 150.0
+value = 150.0
+fill_mode = 4
+texture_under = ExtResource("2_6t5aa")
+texture_progress = ExtResource("3_vgqql")
+tint_under = Color(0.2450997, 0.19513747, 0.19090867, 1)
+tint_progress = Color(0.29616925, 0.49518383, 1, 1)

@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bfgtnb8q2fidr"]
+
+[ext_resource type="Script" uid="uid://dmmq1ro3but1a" path="res://Scripts/fuelCan.gd" id="1_uhmbd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt3lr"]
+albedo_color = Color(1, 0, 0, 1)
+metallic = 0.67
+roughness = 0.48
+
+[sub_resource type="BoxMesh" id="BoxMesh_e72e0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nf5et"]
+
+[node name="fuelCan" type="Node3D" unique_id=638783587]
+script = ExtResource("1_uhmbd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1828141365]
+material_override = SubResource("StandardMaterial3D_qt3lr")
+mesh = SubResource("BoxMesh_e72e0")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=571172759]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=713637684]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_nf5et")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

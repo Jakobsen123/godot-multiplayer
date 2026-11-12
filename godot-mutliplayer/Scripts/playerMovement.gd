@@ -2,11 +2,15 @@ extends CharacterBody3D
 
 var isLocalPlayer = true
 
-const SPEED = 5.0
-const JUMP_VELOCITY = 3
+const SPEED = 7.0
+const JUMP_VELOCITY = 4.5
+const jetPackVelocity = 4.5
 const mouseSens = 0.003
 
+var fuel = 100
+
 @onready var camera = $Camera3D
+@onready var fuelBar = $FuelBar
 
 var targetPos: Vector3
 var targetRotation: float = 0.0
@@ -29,16 +33,27 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.rotation.x = clamp(camera.rotation.x, -1.5, 1.5)
 
 func _physics_process(delta: float) -> void:
-	
 	if isLocalPlayer:
+		
+		fuelBar.value = fuel
+		$FuelLabel.text = str(fuel)
 	
 		# Add the gravity.
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
+		if Input.is_action_just_pressed("restart"):
+			get_tree().reload_current_scene()
+		
 		# Handle jump.
-		if Input.is_action_pressed("ui_accept"):
+		if Input.is_action_pressed("ui_accept") and fuel > 0:
+			velocity.y = jetPackVelocity
+			$JetPack/CPUParticles3D.emitting = true
+			fuel -= 1
+		elif Input.is_action_just_pressed("ui_accept") and fuel <= 0 and is_on_floor():
 			velocity.y = JUMP_VELOCITY
+		else:
+			$JetPack/CPUParticles3D.emitting = false
 		
 		if Input.is_action_just_pressed("escape"):
 			get_tree().quit()

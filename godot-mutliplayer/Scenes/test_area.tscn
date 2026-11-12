@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://coxue4upkk76q" path="res://Scenes/player.tscn" id="1_gv3r5"]
 [ext_resource type="Script" uid="uid://cqdgc2jx4rr7c" path="res://Scripts/playerManager.gd" id="2_kpu7f"]
+[ext_resource type="PackedScene" uid="uid://bfgtnb8q2fidr" path="res://Scenes/fuel_can.tscn" id="3_3n873"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt3lr"]
 albedo_color = Color(0.85490197, 0.43529412, 0, 1)
@@ -18,6 +19,12 @@ sky_material = SubResource("ProceduralSkyMaterial_nf5et")
 [sub_resource type="Environment" id="Environment_e72e0"]
 background_mode = 2
 sky = SubResource("Sky_qt3lr")
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_e72e0"]
+size = Vector3(1, 1, 0.86376953)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e72e0"]
 
 [node name="TestArea" type="Node3D" unique_id=644057017]
 
@@ -37,9 +44,21 @@ shape = SubResource("WorldBoundaryShape3D_e72e0")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=801110656]
 environment = SubResource("Environment_e72e0")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1391094088]
-transform = Transform3D(0.5773847, -0.7571722, 0.3054785, 0.1706606, 0.4778006, 0.8617317, -0.7984371, -0.44541752, 0.4050942, 0, 3.2150064, 0)
-shadow_enabled = true
-
 [node name="PlayerManager" type="Node3D" parent="." unique_id=1188147004]
 script = ExtResource("2_kpu7f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1391094088]
+transform = Transform3D(0.5773847, -0.7571722, 0.30547848, 0.1706606, 0.4778006, 0.8617317, -0.7984371, -0.44541755, 0.40509424, 0, 3.2150064, 0)
+shadow_enabled = true
+
+[node name="fuelCan" parent="." unique_id=638783587 instance=ExtResource("3_3n873")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9906588, 1.0851381, -4.979779)
+
+[node name="boxforscale" type="StaticBody3D" parent="." unique_id=1065626924]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 4.4036236, 9.932914)
+
+[node name="BoxForScale" type="MeshInstance3D" parent="boxforscale" unique_id=1422478379]
+mesh = SubResource("BoxMesh_e72e0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="boxforscale" unique_id=970229630]
+shape = SubResource("BoxShape3D_e72e0")
