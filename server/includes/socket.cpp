@@ -41,18 +41,28 @@ void Socket::Start()
         ssize_t n = recvfrom(socketfd, buffer, sizeof(buffer), 0, (sockaddr *)&from, &fromLen);
 
         std::string msg(buffer, n);
-
         Client c;
         if (JSONParse::Parse(msg, c))
         {
             if (ClientExists(c))
             {
-                Print("Fjertefaen");
+                UpdateClient(c);
             }
             else
             {
                 AddClient(c);
             }
+        }
+        for (Client i : Clients)
+        {
+            nlohmann::json out = {
+                {"type", "update_player"},
+                {"name", i.name},
+                {"position", {{"x", i.position.x}, {"y", i.position.y}, {"z", i.position.z}}},
+                {"rotation", i.rotation}};
+
+            std::string text = out.dump();
+            sendto(socketfd, text.data(), text.size(), 0, (sockaddr *)&from, fromLen);
         }
     }
 }
@@ -70,6 +80,20 @@ bool Socket::ClientExists(Client &c)
 
 void Socket::AddClient(const Client &c)
 {
+    Clients.push_back(c);
+    std::cout << "Client Added: " << c.name << "\n";
+}
+
+void Socket::UpdateClient(const Client &c)
+{
+    for (auto &i : Clients)
+    {
+        if (CompareClients(i, c))
+        {
+            i.position = c.position;
+            i.rotation = c.rotation;
+        }
+    }
 }
 
 void Socket::RemoveClient(const Client &client)
