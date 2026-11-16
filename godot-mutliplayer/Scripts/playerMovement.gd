@@ -49,7 +49,6 @@ func _physics_process(delta: float) -> void:
 		
 		if $Camera3D/RayCast3D.is_colliding():
 			var target = $Camera3D/RayCast3D.get_collider()
-			print(target)
 		
 		if Input.is_action_just_pressed("shift") and fuel > 0 :
 			if cooldownTimer > 0:
