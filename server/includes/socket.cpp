@@ -90,6 +90,7 @@ void Socket::UpdateClient(const Client &c)
     {
         if (CompareClients(i, c))
         {
+    
             i.position = c.position;
             i.rotation = c.rotation;
         }

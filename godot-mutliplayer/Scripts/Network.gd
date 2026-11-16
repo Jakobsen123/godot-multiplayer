@@ -71,8 +71,6 @@ func send_message(message: String):
 
 	if error != OK:
 		print("Send error: ", error)
-	else:
-		print("Sent: ", message)
 
 
 func handle_message(data: Dictionary):

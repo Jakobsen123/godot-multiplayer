@@ -37,7 +37,6 @@ func _physics_process(delta: float) -> void:
 		
 		if $Camera3D/RayCast3D.is_colliding():
 			var target = $Camera3D/RayCast3D.get_collider()
-			print(target)
 		
 		
 		fuelBar.value = fuel
