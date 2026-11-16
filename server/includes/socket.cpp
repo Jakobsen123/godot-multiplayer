@@ -55,6 +55,7 @@ void Socket::Start()
         }
         for (Client i : Clients)
         {
+            std::cout << "Packet sent" << "\n";
             nlohmann::json out = {
                 {"type", "update_player"},
                 {"name", i.name},
@@ -66,7 +67,6 @@ void Socket::Start()
         }
     }
 }
-
 
 bool Socket::ClientExists(Client &c)
 {
