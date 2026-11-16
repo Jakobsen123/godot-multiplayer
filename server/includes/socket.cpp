@@ -67,6 +67,7 @@ void Socket::Start()
     }
 }
 
+
 bool Socket::ClientExists(Client &c)
 {
     for (Client i : Clients)
