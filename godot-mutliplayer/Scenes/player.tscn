@@ -93,8 +93,15 @@ spread = 12.0
 gravity = Vector3(0, -3, 0)
 color = Color(1, 0.5294118, 0.22745098, 1)
 
-[node name="FuelLabel" type="Label" parent="." unique_id=706991813]
+[node name="UI" type="Control" parent="." unique_id=463140915]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FuelLabel" type="Label" parent="UI" unique_id=706991813]
 z_index = 2
+layout_mode = 0
 offset_left = 28.0
 offset_top = 489.0
 offset_right = 168.0
@@ -103,7 +110,8 @@ theme_override_font_sizes/font_size = 53
 text = "FUEL:"
 horizontal_alignment = 1
 
-[node name="FuelBar" type="TextureProgressBar" parent="." unique_id=1595928756]
+[node name="FuelBar" type="TextureProgressBar" parent="UI" unique_id=1595928756]
+layout_mode = 0
 offset_left = 38.0
 offset_top = 468.0
 offset_right = 3038.0
@@ -115,12 +123,44 @@ fill_mode = 4
 texture_under = ExtResource("2_6t5aa")
 texture_progress = ExtResource("3_vgqql")
 tint_under = Color(0.2450997, 0.19513747, 0.19090867, 1)
-tint_progress = Color(0.29616925, 0.49518383, 1, 1)
+tint_progress = Color(0.29803923, 0.84705883, 0.015686275, 1)
 
-[node name="lowFuelLabel" type="Label" parent="." unique_id=100773820]
+[node name="lowFuelLabel" type="Label" parent="UI" unique_id=100773820]
+layout_mode = 0
 offset_left = 57.0
 offset_top = 441.0
 offset_right = 136.0
 offset_bottom = 464.0
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "LOW FUEL"
+
+[node name="Reticle" type="Label" parent="UI" unique_id=1842741357]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 536.0
+offset_top = 292.5
+offset_right = 576.0
+offset_bottom = 315.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="DashCooldown" type="TextureProgressBar" parent="UI" unique_id=84753073]
+layout_mode = 0
+offset_left = 159.00002
+offset_top = 539.99994
+offset_right = 3159.0
+offset_bottom = 3540.0
+scale = Vector2(0.015, 0.015)
+offset_transform_scale = Vector2(0.5, 0.5)
+value = 100.0
+fill_mode = 4
+texture_under = ExtResource("2_6t5aa")
+texture_progress = ExtResource("3_vgqql")
+tint_under = Color(0.16206557, 0.1620656, 0.16206554, 1)
+tint_progress = Color(0.29411766, 0.48235294, 1, 1)

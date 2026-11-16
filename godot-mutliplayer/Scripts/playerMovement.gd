@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 var isLocalPlayer = true
 
-const SPEED = 7.0
+var SPEED = 7.0
 const JUMP_VELOCITY = 4.5
 const jetPackVelocity = 4.5
 const mouseSens = 0.003
@@ -10,7 +10,12 @@ const mouseSens = 0.003
 var fuel = 100
 
 @onready var camera = $Camera3D
-@onready var fuelBar = $FuelBar
+@onready var fuelBar = $UI/FuelBar
+
+@onready var dashCooldown = $UI/DashCooldown
+
+var cooldown = 2.0
+var cooldownTimer = 0.0
 
 var targetPos: Vector3
 var targetRotation: float = 0.0
@@ -35,18 +40,38 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if isLocalPlayer:
 		
+		if cooldownTimer > 0:
+			cooldownTimer -= delta
+		
+		cooldownTimer = max(cooldownTimer, 0.0)
+		
+		dashCooldown.value = (1.0 - cooldownTimer / cooldown) * 100
+		
 		if $Camera3D/RayCast3D.is_colliding():
 			var target = $Camera3D/RayCast3D.get_collider()
 			print(target)
 		
+		if Input.is_action_just_pressed("shift") and fuel > 0 :
+			if cooldownTimer > 0:
+				return
+			else:
+				cooldownTimer = cooldown
+				SPEED = 15
+				fuel -= 10
+				await get_tree().create_timer(0.3).timeout
+				SPEED = 7
+			
 		
 		fuelBar.value = fuel
-		$FuelLabel.text = str(fuel)
+		if fuelBar.value < 0:
+			$UI/FuelLabel.text = "0"
+		else:
+			$UI/FuelLabel.text = str(fuel)
 		
 		if fuelBar.value <= 35:
-			$lowFuelLabel.show()
+			$UI/lowFuelLabel.show()
 		else:
-			$lowFuelLabel.hide()
+			$UI/lowFuelLabel.hide()
 		
 		if fuelBar.value >= 70:
 			fuelBar.tint_progress = Color.LIME_GREEN
