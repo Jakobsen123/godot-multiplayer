@@ -3,7 +3,7 @@ extends Node
 
 var udp = PacketPeerUDP.new()
 
-const SERVER_IP = "127.0.0.1"
+const SERVER_IP = "172.20.128.28"
 const SERVER_PORT = 8000
 
 var connected = false
