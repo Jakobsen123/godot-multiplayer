@@ -76,6 +76,7 @@ bool Socket::ClientExists(Client &c)
 
         return a == b;
     }
+    return false;
 }
 
 void Socket::AddClient(const Client &c)
@@ -90,7 +91,7 @@ void Socket::UpdateClient(const Client &c)
     {
         if (CompareClients(i, c))
         {
-    
+
             i.position = c.position;
             i.rotation = c.rotation;
         }
