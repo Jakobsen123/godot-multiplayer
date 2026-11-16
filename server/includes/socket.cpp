@@ -103,7 +103,7 @@ void Socket::RemoveClient(const Client &client)
                   { return key == i.name; });
 }
 
-bool CompareClients(const Client &a, const Client &b)
+bool Socket::CompareClients(const Client &a, const Client &b)
 {
     return (a.name == b.name);
 }
