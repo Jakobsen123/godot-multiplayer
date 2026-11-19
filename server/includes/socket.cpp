@@ -1,5 +1,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <vector>
 #include <unistd.h>
 #include <iostream>
@@ -39,31 +40,37 @@ void Socket::Start()
         sockaddr_in from{};
         socklen_t fromLen = sizeof(from);
         ssize_t n = recvfrom(socketfd, buffer, sizeof(buffer), 0, (sockaddr *)&from, &fromLen);
+        if (n <= 0)
+        {
+            perror("recvfrom");
+            continue;
+        }
 
         std::string msg(buffer, n);
         Client c;
-        if (JSONParse::Parse(msg, c))
-        {
-            if (ClientExists(c))
-            {
-                UpdateClient(c);
-            }
-            else
-            {
-                AddClient(c);
-            }
-        }
-        for (Client i : Clients)
-        {
-            std::cout << "Packet sent" << "\n";
-            nlohmann::json out = {
-                {"type", "update_player"},
-                {"name", i.name},
-                {"position", {{"x", i.position.x}, {"y", i.position.y}, {"z", i.position.z}}},
-                {"rotation", i.rotation}};
+        if (!JSONParse::Parse(msg, c))
+            continue; // ignore garbage
 
-            std::string text = out.dump();
-            sendto(socketfd, text.data(), text.size(), 0, (sockaddr *)&from, fromLen);
+        // Remember where this player lives so we can forward to them later
+        c.addr = from;
+
+        if (ClientExists(c))
+            UpdateClient(c);
+        else
+            AddClient(c);
+
+        // Forward the original packet (including "t") to every OTHER client.
+        // Each update is sent once, straight away, instead of the sender
+        // getting the whole list back.
+        std::string sender = ToLower(c.name);
+        for (Client &i : Clients)
+        {
+            if (ToLower(i.name) == sender)
+                continue;
+
+            if (sendto(socketfd, msg.data(), msg.size(), 0,
+                       (const sockaddr *)&i.addr, sizeof(i.addr)) < 0)
+                perror("sendto");
         }
     }
 }
@@ -84,10 +91,13 @@ bool Socket::CompareClients(Client &a, Client &b)
     return ToLower(a.name) == ToLower(b.name);
 }
 
-void Socket::AddClient(const Client &c)
+void Socket::AddClient(Client &c)
 {
     Clients.push_back(c);
-    std::cout << "Client Added: " << c.name << "\n";
+
+    char ip[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &c.addr.sin_addr, ip, sizeof(ip));
+    std::cout << "Client Added: " << c.name << " (" << ip << ":" << ntohs(c.addr.sin_port) << ")\n";
 }
 
 void Socket::UpdateClient(Client &c)
@@ -96,16 +106,16 @@ void Socket::UpdateClient(Client &c)
     {
         if (CompareClients(i, c))
         {
-
             i.position = c.position;
             i.rotation = c.rotation;
+            i.addr = c.addr; // address can change (e.g. game restarted)
         }
     }
 }
 
-void Socket::RemoveClient(const Client &client)
+void Socket::RemoveClient(Client &client)
 {
-    std::string key = client.name;
-    std::erase_if(Clients, [key, this](const Client &i)
-                  { return key == i.name; });
+    std::string key = ToLower(client.name);
+    std::erase_if(Clients, [&key](Client &i)
+                  { return key == ToLower(i.name); });
 }

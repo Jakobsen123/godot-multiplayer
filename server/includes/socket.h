@@ -11,9 +11,9 @@ class Socket
 public:
     explicit Socket(const int port);
     void Start();
-    void AddClient(const Client &c);
+    void AddClient(Client &c);
     void UpdateClient(Client &c);
-    void RemoveClient(const Client &client);
+    void RemoveClient(Client &client);
     bool CompareClients(Client &a, Client &b);
     bool ClientExists(Client &c);
 

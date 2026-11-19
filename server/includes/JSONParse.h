@@ -18,6 +18,7 @@ public:
                                    pos.at("z").get<float>()};
 
             out.rotation = parsedJSON.at("rotation").get<float>();
+
             return true;
             return true;
         }
