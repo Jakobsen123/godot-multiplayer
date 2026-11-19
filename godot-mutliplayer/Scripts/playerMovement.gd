@@ -35,6 +35,13 @@ func _ready() -> void:
 		targetPos = global_position
 		targetRotation = rotation.y
 
+func takeDamage():
+	get_tree().quit()
+
+func shoot():
+	var collider = $Camera3D/RayCast3D.get_collider()
+	if collider != null and collider.has_method("takeDamage"):
+		collider.takeDamage()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not isLocalPlayer:
@@ -59,6 +66,9 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
+	
+	if Input.is_action_just_pressed("shoot"):
+		shoot()
 
 	# Jetpack / jump
 	if Input.is_action_pressed("ui_accept") and fuel > 0:
