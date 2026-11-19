@@ -101,7 +101,11 @@ func get_my_name() -> String:
 
 
 func handle_message(data: Dictionary):
-	if data.get("type") != "update_player":
+	if data.get("type") != "update_player" and data.get("type") != "delete_player":
+		return
+	if data.get("type") == "delete_player":
+		print("Deleteplayerevent")
+		playerManager.deletePlayers.append(data.get("name"))
 		return
 
 	var player_name := str(data.get("name", ""))

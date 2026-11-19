@@ -78,7 +78,7 @@ func _physics_process(delta: float) -> void:
 	jetParticles.emitting = isBoosting
 
 	if Input.is_action_just_pressed("escape"):
-		Network.send_player_data("delete_player", Global.playerUsername, Vector3(0, 0, 0), 0.0, false)
+		Network.send_player_data("delete_player", playerManager.myPlayerID , Vector3(0, 0, 0), 0.0, false)
 		get_tree().quit()
 
 	if Input.is_action_just_pressed("reset_pos"):
@@ -122,7 +122,6 @@ func handle_dash(delta: float) -> void:
 func update_fuel_ui() -> void:
 	fuelBar.value = fuel
 	$UI/FuelLabel.text = str(fuelBar.value).split('.')[0]
-
 	if fuel <= 35:
 		$UI/lowFuelLabel.show()
 	else:

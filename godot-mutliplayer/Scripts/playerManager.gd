@@ -4,6 +4,7 @@ const PLAYER = preload("res://Scenes/player.tscn")
 
 var players = {}
 var myPlayerID := ""
+var deletePlayers = []
 
 
 func _ready():
@@ -44,3 +45,6 @@ func removePlayer(id: String):
 	if players.has(id):
 		players[id].queue_free()
 		players.erase(id)
+
+func _process(delta: float) -> void:
+	print(deletePlayers)
