@@ -3,6 +3,7 @@ extends Node
 const SERVER_IP = "172.20.128.28"
 const SERVER_PORT = 8000
 const HEARTBEAT_INTERVAL = 1.0
+const DEBUG = true
 
 var udp := PacketPeerUDP.new()
 var connected := false
@@ -15,12 +16,21 @@ var playerManager: Node3D
 
 
 func _ready():
-	var error = udp.connect_to_host(SERVER_IP, SERVER_PORT)
+	# Bind to any free local port instead of connect_to_host().
+	# connect_to_host() silently drops packets whose source IP/port doesn't
+	# exactly match SERVER_IP:SERVER_PORT, which breaks behind WSL2/Docker NAT.
+	var error = udp.bind(0)
 	if error != OK:
-		print("UDP setup error: ", error)
+		print("UDP bind error: ", error)
 		return
+
+	error = udp.set_dest_address(SERVER_IP, SERVER_PORT)
+	if error != OK:
+		print("UDP set_dest_address error: ", error)
+		return
+
 	connected = true
-	print("UDP ready!")
+	print("UDP ready on local port ", udp.get_local_port(), " -> ", SERVER_IP, ":", SERVER_PORT)
 
 
 func _process(delta):
@@ -29,7 +39,7 @@ func _process(delta):
 
 	receive_messages()
 
-	# Keep the server aware of us even when standing still
+	# Keep the server aware of us (and get the player list back) even when standing still
 	heartbeat_timer += delta
 	if heartbeat_timer >= HEARTBEAT_INTERVAL and not last_data.is_empty():
 		heartbeat_timer = 0.0
@@ -55,36 +65,65 @@ func send_player_data(type: String, player_name: String, player_position: Vector
 
 
 func send_message(message: String):
+	if not connected:
+		return
 	var error = udp.put_packet(message.to_utf8_buffer())
+	if DEBUG:
+		print("SENT -> ", message, " (err ", error, ")")
 	if error != OK:
 		print("Send error: ", error)
 
 
 func receive_messages():
 	while udp.get_available_packet_count() > 0:
-		var message = udp.get_packet().get_string_from_utf8()
+		var packet := udp.get_packet()
+		var error := udp.get_packet_error()
+		if error != OK:
+			print("Receive error: ", error)
+			continue
+
+		var message := packet.get_string_from_utf8()
+		if DEBUG:
+			print("RECV from ", udp.get_packet_ip(), ":", udp.get_packet_port(), " -> ", message)
+
 		var data = JSON.parse_string(message)
 		if data is Dictionary:
 			handle_message(data)
+		elif DEBUG:
+			print("Ignored non-JSON packet")
+
+
+func get_my_name() -> String:
+	# Fall back to the global username in case send_player_data() hasn't run yet
+	if my_name != "":
+		return my_name
+	return str(Global.playerUsername)
 
 
 func handle_message(data: Dictionary):
 	if data.get("type") != "update_player":
 		return
 
+	var player_name := str(data.get("name", ""))
+	if player_name == "":
+		return
+
 	# Ignore our own player echoed back by the server
-	if data.get("name", "").to_lower() == my_name.to_lower():
+	if player_name.to_lower() == get_my_name().to_lower():
+		if DEBUG:
+			print("Skipped own echo (", player_name, ")")
 		return
 
 	if not is_instance_valid(playerManager):
+		if DEBUG:
+			print("playerManager not set, dropping update for ", player_name)
 		return
 
-	var pos = data["position"]
-	var player_position = Vector3(pos["x"], pos["y"], pos["z"])
+	var pos = data.get("position")
+	if not (pos is Dictionary and pos.has("x") and pos.has("y") and pos.has("z")):
+		return
 
-	playerManager.updatePlayer(
-		data["name"],
-		data["name"],
-		player_position,
-		data["rotation"]
-	)
+	var player_position := Vector3(float(pos["x"]), float(pos["y"]), float(pos["z"]))
+	var player_rotation := float(data.get("rotation", 0.0))
+
+	playerManager.updatePlayer(player_name, player_name, player_position, player_rotation)
