@@ -78,6 +78,7 @@ func _physics_process(delta: float) -> void:
 	jetParticles.emitting = isBoosting
 
 	if Input.is_action_just_pressed("escape"):
+		Network.send_player_data("delete_player", Global.playerUsername, Vector3(0, 0, 0), 0.0, false)
 		get_tree().quit()
 
 	if Input.is_action_just_pressed("reset_pos"):
