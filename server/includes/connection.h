@@ -14,5 +14,6 @@ struct Client
     std::string name;
     Vector3 position;
     float rotation;
+    bool is_boosting = false;
     sockaddr_in addr{};
 };
