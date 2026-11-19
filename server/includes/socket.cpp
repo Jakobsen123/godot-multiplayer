@@ -55,6 +55,7 @@ void Socket::Start()
 
         if (type == "delete_player")
         {
+            std::cout << msg << "\n";
             RemoveClient(c);
             return;
         }
