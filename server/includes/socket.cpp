@@ -48,20 +48,26 @@ void Socket::Start()
 
         std::string msg(buffer, n);
         Client c;
-        if (!JSONParse::Parse(msg, c))
-            continue; // ignore garbage
-
-        // Remember where this player lives so we can forward to them later
+        std::string type;
+        if (!JSONParse::Parse(msg, c, type))
+            continue;
         c.addr = from;
 
-        if (ClientExists(c))
+        if (type == "delete_player")
+        {
+            std::cout << msg << "\n";
+            RemoveClient(c);
+            return;
+        }
+        else if (ClientExists(c))
+        {
             UpdateClient(c);
+        }
         else
+        {
             AddClient(c);
+        }
 
-        // Forward the original packet (including "t") to every OTHER client.
-        // Each update is sent once, straight away, instead of the sender
-        // getting the whole list back.
         std::string sender = ToLower(c.name);
         for (Client &i : Clients)
         {
@@ -108,7 +114,7 @@ void Socket::UpdateClient(Client &c)
         {
             i.position = c.position;
             i.rotation = c.rotation;
-            i.addr = c.addr; // address can change (e.g. game restarted)
+            i.addr = c.addr;
         }
     }
 }
