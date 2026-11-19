@@ -14,7 +14,6 @@ var last_data := {}
 
 var playerManager: Node3D
 
-
 func _ready():
 	# Bind to any free local port instead of connect_to_host().
 	# connect_to_host() silently drops packets whose source IP/port doesn't
