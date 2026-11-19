@@ -5,8 +5,9 @@ extends Control
 
 
 func _on_button_pressed() -> void:
-	var username = input.text.strip_edges()
+	var username: String = input.text.strip_edges()
 	if username == "":
 		return
+
 	Global.playerUsername = username
 	get_tree().change_scene_to_file("res://Scenes/test_area.tscn")

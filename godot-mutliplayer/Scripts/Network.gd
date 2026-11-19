@@ -14,11 +14,11 @@ var last_data := {}
 
 var playerManager: Node3D
 
+
 func _ready():
-	# Bind to any free local port instead of connect_to_host().
-	# connect_to_host() silently drops packets whose source IP/port doesn't
-	# exactly match SERVER_IP:SERVER_PORT, which breaks behind WSL2/Docker NAT.
-	var error = udp.bind(0)
+	# Bind to any free local port (1 MB receive buffer) instead of connect_to_host(),
+	# which silently drops packets whose source doesn't exactly match the server.
+	var error = udp.bind(0, "*", 1 << 20)
 	if error != OK:
 		print("UDP bind error: ", error)
 		return
@@ -38,10 +38,11 @@ func _process(delta):
 
 	receive_messages()
 
-	# Keep the server aware of us (and get the player list back) even when standing still
+	# Keep the server aware of us even when nothing is being sent
 	heartbeat_timer += delta
 	if heartbeat_timer >= HEARTBEAT_INTERVAL and not last_data.is_empty():
 		heartbeat_timer = 0.0
+		last_data["t"] = Time.get_ticks_msec()
 		send_message(JSON.stringify(last_data))
 
 
@@ -90,8 +91,6 @@ func receive_messages():
 		var data = JSON.parse_string(message)
 		if data is Dictionary:
 			handle_message(data)
-		elif DEBUG:
-			print("Ignored non-JSON packet")
 
 
 func get_my_name() -> String:
@@ -99,6 +98,7 @@ func get_my_name() -> String:
 	if my_name != "":
 		return my_name
 	return str(Global.playerUsername)
+
 
 func handle_message(data: Dictionary):
 	if data.get("type") != "update_player":
@@ -108,10 +108,8 @@ func handle_message(data: Dictionary):
 	if player_name == "":
 		return
 
-	# Ignore our own player echoed back by the server
+	# Ignore our own player
 	if player_name.to_lower() == get_my_name().to_lower():
-		if DEBUG:
-			print("Skipped own echo (", player_name, ")")
 		return
 
 	if not is_instance_valid(playerManager):
