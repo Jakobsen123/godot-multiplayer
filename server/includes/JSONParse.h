@@ -18,7 +18,7 @@ public:
                                    pos.at("z").get<float>()};
 
             out.rotation = parsedJSON.at("rotation").get<float>();
-            out.is_boosting = parsedJSON.at('is_boosting').get<bool>();
+            out.is_boosting = parsedJSON.at("is_boosting").get<bool>();
             return true;
         }
         catch (const nlohmann::json::exception &e)
