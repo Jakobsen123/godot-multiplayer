@@ -55,6 +55,9 @@ func _physics_process(delta: float) -> void:
 	handle_dash(delta)
 	update_fuel_ui()
 
+	if is_on_floor() and fuel <= 75:
+		fuel += 0.05
+
 	# Gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -117,7 +120,7 @@ func handle_dash(delta: float) -> void:
 
 func update_fuel_ui() -> void:
 	fuelBar.value = fuel
-	$UI/FuelLabel.text = str(fuel)
+	$UI/FuelLabel.text = str(fuelBar.value).split('.')[0]
 
 	if fuel <= 35:
 		$UI/lowFuelLabel.show()
