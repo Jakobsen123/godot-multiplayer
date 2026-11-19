@@ -3,7 +3,7 @@ extends Node
 const SERVER_IP = "172.20.128.28"
 const SERVER_PORT = 8000
 const HEARTBEAT_INTERVAL = 1.0
-const DEBUG = true
+const DEBUG = false
 
 var udp := PacketPeerUDP.new()
 var connected := false
@@ -97,7 +97,6 @@ func get_my_name() -> String:
 	if my_name != "":
 		return my_name
 	return str(Global.playerUsername)
-
 
 func handle_message(data: Dictionary):
 	if data.get("type") != "update_player":

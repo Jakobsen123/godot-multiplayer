@@ -9,9 +9,10 @@ struct Vector3
     float z;
 };
 
-struct Client 
+struct Client
 {
     std::string name;
     Vector3 position;
     float rotation;
+    sockaddr_in addr{};
 };
