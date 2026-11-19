@@ -10,7 +10,7 @@ func _ready():
 	Network.playerManager = self
 	print("PlayerManager ready, my ID: ", myPlayerID)
 
-func spawnPlayer(id: String, username: String, spawnPosition: Vector3, newRotation: float):
+func spawnPlayer(id: String, username: String, spawnPosition: Vector3, newRotation: float, is_boosting: bool):
 	if players.has(id):
 		return
 
@@ -24,18 +24,20 @@ func spawnPlayer(id: String, username: String, spawnPosition: Vector3, newRotati
 	player.rotation.y = newRotation
 	player.targetPos = spawnPosition
 	player.targetRotation = newRotation
+	player.JetPack.CPUParticles3D.emitting = is_boosting
 
 	players[id] = player
 
-func updatePlayer(id: String, username: String, newPosition: Vector3, newRotation: float):
+func updatePlayer(id: String, username: String, newPosition: Vector3, newRotation: float, is_boosting: bool):
 	if not players.has(id):
-		spawnPlayer(id, username, newPosition, newRotation)
+		spawnPlayer(id, username, newPosition, newRotation,is_boosting)
 		return
 
 	var player = players[id]
 	if not player.isLocalPlayer:
 		player.targetPos = newPosition
 		player.targetRotation = newRotation
+		player.JetPack.CPUParticles3D.emitting = is_boosting
 
 func removePlayer(id: String):
 	if players.has(id):

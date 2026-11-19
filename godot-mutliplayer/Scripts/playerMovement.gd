@@ -92,7 +92,7 @@ func _physics_process(delta: float) -> void:
 	sendTimer += delta
 	if sendTimer >= 0.05:
 		sendTimer = 0.0
-		Network.send_player_data("update_player", Global.playerUsername, global_position, rotation.y)
+		Network.send_player_data("update_player", Global.playerUsername, global_position, rotation.y,$JetPack/CPUParticles3D.emitting)
 
 
 func handle_dash(delta: float) -> void:

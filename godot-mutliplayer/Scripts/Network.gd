@@ -46,7 +46,7 @@ func _process(delta):
 		send_message(JSON.stringify(last_data))
 
 
-func send_player_data(type: String, player_name: String, player_position: Vector3, player_rotation_y: float):
+func send_player_data(type: String, player_name: String, player_position: Vector3, player_rotation_y: float, is_boosting: bool):
 	my_name = player_name
 
 	last_data = {
@@ -57,7 +57,9 @@ func send_player_data(type: String, player_name: String, player_position: Vector
 			"y": player_position.y,
 			"z": player_position.z
 		},
-		"rotation": player_rotation_y
+		"rotation": player_rotation_y,
+		"is_boosting": is_boosting,
+		"t": Time.get_ticks_msec()
 	}
 
 	heartbeat_timer = 0.0
@@ -124,5 +126,7 @@ func handle_message(data: Dictionary):
 
 	var player_position := Vector3(float(pos["x"]), float(pos["y"]), float(pos["z"]))
 	var player_rotation := float(data.get("rotation", 0.0))
+	var player_boosting := bool(data.get("is_boosting", false))
+	var sender_t := float(data.get("t", Time.get_ticks_msec()))
 
-	playerManager.updatePlayer(player_name, player_name, player_position, player_rotation)
+	playerManager.updatePlayer(player_name, player_name, player_position, player_rotation, player_boosting, sender_t)
