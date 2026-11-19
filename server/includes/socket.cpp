@@ -70,14 +70,18 @@ void Socket::Start()
 
 bool Socket::ClientExists(Client &c)
 {
-    for (Client i : Clients)
+    std::string b = ToLower(c.name);
+    for (Client &i : Clients)
     {
-        std::string a = ToLower(i.name);
-        std::string b = ToLower(c.name);
-
-        return a == b;
+        if (ToLower(i.name) == b)
+            return true;
     }
     return false;
+}
+
+bool Socket::CompareClients(Client &a, Client &b)
+{
+    return ToLower(a.name) == ToLower(b.name);
 }
 
 void Socket::AddClient(const Client &c)
@@ -86,7 +90,7 @@ void Socket::AddClient(const Client &c)
     std::cout << "Client Added: " << c.name << "\n";
 }
 
-void Socket::UpdateClient(const Client &c)
+void Socket::UpdateClient(Client &c)
 {
     for (auto &i : Clients)
     {
@@ -104,9 +108,4 @@ void Socket::RemoveClient(const Client &client)
     std::string key = client.name;
     std::erase_if(Clients, [key, this](const Client &i)
                   { return key == i.name; });
-}
-
-bool Socket::CompareClients(const Client &a, const Client &b)
-{
-    return (a.name == b.name);
 }

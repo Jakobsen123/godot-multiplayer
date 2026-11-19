@@ -12,9 +12,9 @@ public:
     explicit Socket(const int port);
     void Start();
     void AddClient(const Client &c);
-    void UpdateClient(const Client &c);
+    void UpdateClient(Client &c);
     void RemoveClient(const Client &client);
-    bool CompareClients(const Client &a, const Client &b);
+    bool CompareClients(Client &a, Client &b);
     bool ClientExists(Client &c);
 
 private:
